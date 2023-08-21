@@ -2,7 +2,7 @@
 # coding: utf-8
 """
 version 1.0 Author: Ledivan B. Marques
-            Email:    l.marques@iib-institut.de
+            Email:    ledivan_bernardo@yahoo.com.br
 """
 from base64 import b64decode, b64encode
 from json import dumps, loads
