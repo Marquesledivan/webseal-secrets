@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Submission Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 10px 20px; /* Adjust the padding to control the height */
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 150px; /* Adjust the maximum width of the logo as needed */
+            height: auto; /* Maintain the aspect ratio of the logo */
+        }
+
+        .success-container {
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto; /* Center the container on the screen */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            text-align: left; /* Adjust text alignment */
+        }
+
+        /* Estilizando o botão de voltar */
+        button {
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/"> <!-- Add the anchor tag with the home page URL -->
+            <img src="{{ url_for('get_logo') }}" alt="Logo">
+        </a>
+    </div>
+    <div class="success-container">
+        <h1>Form Submitted Successfully</h1>
+        <pre id="output">{{ json_output | safe }}</pre> <!-- Use the "json_output" variable and apply "safe" filter to render the HTML safely -->
+        <button onclick="copyToClipboard()">Copy</button>
+        <button onclick="goBack()">Back</button>
+    </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        function copyToClipboard() {
+            const outputElement = document.getElementById("output");
+            const range = document.createRange();
+            range.selectNode(outputElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+
+            alert("Copied to clipboard!");
+        }
+
+        // Format the JSON output and assign it to the "json_output" variable
+        const rawOutput = `{{ json_output | safe }}`; // Get the raw JSON output from the template
+        const formattedOutput = JSON.stringify(JSON.parse(rawOutput), null, 2);
+        document.getElementById("output").innerText = formattedOutput;
+    </script>
+</body>
+</html>

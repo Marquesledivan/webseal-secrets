@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seal Kubernetes Secret</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+        }
+
+        .form-container {
+            position: relative;
+            width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #0066cc;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            max-width: 400px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0052a3;
+        }
+
+        /* Estilizando o botão para redirecionar */
+        .go-to-yaml-btn {
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-left: 10px; /* Add this line to adjust the button's left margin */
+            cursor: pointer;
+            position: absolute;
+            transition: background-color 0.3s ease;
+            left: 10px;
+        }
+
+        .go-to-yaml-btn:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <img class="logo" src="{{ url_for('get_logo') }}" alt="Logo">
+    </div>
+
+    <!-- Button to redirect to /yaml -->
+    <a href="/yaml">
+        <button class="go-to-yaml-btn">Go to Yaml</button>
+    </a>
+
+    <div class="form-container">
+        <h1>WebSeal Kubernetes Secret</h1>
+        <form action="/" method="post">
+            <label for="namespace">Namespace:</label>
+            <input type="text" id="namespace" name="namespace" required>
+
+            <label for="name">Secret name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="value">Value to encrypt:</label>
+            <input type="text" id="value" name="value" required>
+
+            <input type="submit" value="Seal Secret">
+        </form>
+    </div>
+</body>
+</html>
