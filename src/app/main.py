@@ -172,24 +172,35 @@ async def seal_yaml_secret(
     namespace: str = Form(...),
     name: str = Form(...),
 ):
-    data_dict = {}
-    lines = value.strip().split("\n")
+    try:
+        data_dict = {}
+        lines = value.strip().split("\n")
 
-    for line in lines:
-        if "=" not in line:
-            raise InvalidInputFormatError(
-                "Invalid input format should be in the format key=value."
-            )
-        key, value = line.split("=")
-        data_dict[key] = value
+        for line in lines:
+            if "=" not in line:
+                raise InvalidInputFormatError(
+                    "Invalid input format the value should be in the format key=value."
+                )
+            key, value = line.split("=")
+            data_dict[key] = value
 
-    encrypted_value = get_sealed_secret(scope, namespace, name, data_dict)
-    json_dict = loads(encrypted_value)
-    yaml_data = dump(json_dict, default_flow_style=False)
+        encrypted_value = get_sealed_secret(scope, namespace, name, data_dict)
+        json_dict = loads(encrypted_value)
+        yaml_data = dump(json_dict, default_flow_style=False)
 
-    return templates.TemplateResponse(
-        "success.html", {"request": request, "json_output": yaml_data}
-    )
+        return templates.TemplateResponse(
+            "success.html", {"request": request, "json_output": yaml_data}
+        )
+    except InvalidInputFormatError as e:
+        error_message = str(e)
+        return templates.TemplateResponse(
+            "error.html", {"request": request, "error_message": error_message}
+        )
+    except Exception as e:
+        error_message = f"Error processing input: {e}"
+        return templates.TemplateResponse(
+            "error.html", {"request": request, "error_message": error_message}
+        )
 
 
 @app.get("/health")
